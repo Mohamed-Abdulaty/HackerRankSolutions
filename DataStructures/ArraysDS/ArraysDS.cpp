@@ -4,7 +4,7 @@ using namespace std;
 
 vector<string> split_string(string);
 
-// Complete the reverseArray function below.
+// Complete the reverseArray function below. -> [DONE]
 vector<int> reverseArray(vector<int> a) {
     std::reverse(a.begin(), a.end());
     return a;
