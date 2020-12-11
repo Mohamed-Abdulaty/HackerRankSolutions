@@ -6,8 +6,9 @@ vector<string> split_string(string);
 
 // Complete the reverseArray function below. -> [DONE]
 vector<int> reverseArray(vector<int> a) {
-    std::reverse(a.begin(), a.end());
-    return a;
+    vector<int> ret (a); 
+    std::reverse(ret.begin(), ret.end());
+    return ret;
 }
 
 int main()

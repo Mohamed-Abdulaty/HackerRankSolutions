@@ -60,7 +60,7 @@ def main(argv):
     if (single_problem is True): 
         # Build this problem only.
         print(">>> Build Single Problem.")
-        print(f'{"Problem Name:":50}' + '{}'.format(str(problem_name)))
+        print(f'{"Problem Name:":50}' + ' {}'.format(str(problem_name)))
         # Get inside the section directory
         os.chdir('{}/{}'.format(str(current_path), str(section_directory)))
 
