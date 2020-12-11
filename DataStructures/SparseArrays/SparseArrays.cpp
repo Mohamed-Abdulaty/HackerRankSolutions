@@ -4,8 +4,11 @@ using namespace std;
 
 // Complete the matchingStrings function below.
 vector<int> matchingStrings(vector<string> strings, vector<string> queries) {
-
-
+    vector<int> ret{};
+    for(auto querie : queries) {
+        ret.push_back(count(strings.begin(), strings.end(), querie));
+    }
+    return ret;
 }
 
 int main()
