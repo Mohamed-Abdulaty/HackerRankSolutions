@@ -6,13 +6,13 @@ constexpr int hourGlassbaseSize = 3;
 
 // Complete the hourglassSum function below.
 int hourglassSum(vector<vector<int>> arr) {
-    int ret{0}, s{0};
+    int ret{INT_MIN};
     for(int i = 0; i < arr[0].size() - hourGlassbaseSize + 1; i++) {
         for(int j = 0; j < arr.size() - hourGlassbaseSize + 1; j++) {
-            s  = arr[i  ][j] + arr[i  ][j+1] + arr[i  ][j+2] +
-                               arr[i+1][j+1] +
-                 arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];
-            ret = std::max<int>(ret, s);
+            int sum  = arr[i  ][j] + arr[i  ][j+1] + arr[i  ][j+2]
+                                   + arr[i+1][j+1] +
+                       arr[i+2][j] + arr[i+2][j+1] + arr[i+2][j+2];
+            ret = std::max<int>(ret, sum);
         }        
     }
     return ret;
