@@ -6,8 +6,20 @@ vector<string> split_string(string);
 
 // Complete the arrayManipulation function below.
 long arrayManipulation(int n, vector<vector<int>> queries) {
+    long max_v{0}, val{0}, a{0}, b{0}, k{0};
+    vector<long> values(n, 0);
 
-
+    for(auto query : queries) {
+        a = query[0];
+        b = query[1];
+        k = query[2];
+        values[a-1]+=k;
+        (b<n) ? values[b]-=k : values[b];
+    }
+    for(long i=0, val=values[i]; i < n; i++, val+=values[i]) {
+        max_v = max(max_v, val);
+    }
+    return max_v;
 }
 
 int main()
