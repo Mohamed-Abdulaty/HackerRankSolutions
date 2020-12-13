@@ -19,6 +19,8 @@ import os
 import sys
 import getopt
 import filecmp
+import difflib
+
 
 # Global variables
 section_directory = ''
@@ -60,7 +62,7 @@ def main(argv):
     if (single_problem is True): 
         # Build this problem only.
         print(">>> Build Single Problem.")
-        print(f'{"Problem Name:":50}' + ' {}'.format(str(problem_name)))
+        print(f'{"Problem Name:":100}' + ' {}'.format(str(problem_name)))
         # Get inside the section directory
         os.chdir('{}/{}'.format(str(current_path), str(section_directory)))
 
@@ -76,7 +78,7 @@ def main(argv):
     elif (complete_dir is True): 
         # Complete Directory Build
         print(">>> Build Complete Problems Section.")
-        print(f'{"Section Name:":50}', end=" ")
+        print(f'{"Section Name:":100}', end=" ")
         print('{}'.format(str(section_directory)))
         # Get inside the section directory
         os.chdir('{}/{}'.format(str(current_path), str(section_directory)))
@@ -86,7 +88,7 @@ def main(argv):
                 if sub_directory == "Data":
                     continue
                 else:
-                    print(f'{"Problem Name:":50}', end=" ")
+                    print(f'{"Problem Name:":100}', end=" ")
                     print('{}'.format(str(sub_directory)))
                     # Set paths
                     SetPaths(sub_directory)
@@ -127,14 +129,14 @@ def BuildSourceAndExecute(problem_name):
     global actual_output_file
 
     # Build
-    print (f'{"Start building":50}', end=" ")
+    print (f'{"Start building":100}', end=" ")
     source_file = '{}/{}.cpp'.format(str(problem_name), str(problem_name))
     binary_file = '{}/{}_bin'.format(str(problem_name), str(problem_name))
     subprocess.call(["g++-10", "-std=c++14", source_file, "-o", binary_file])
     print ("[DONE]")
 
     # Execute
-    print (f'{"Running":50}', end=" ")
+    print (f'{"Running":100}', end=" ")
     runnable = './{}/{}_bin'.format(str(problem_name), str(problem_name))
     subprocess.run(''' 
         export OUTPUT_PATH={0} &&  
@@ -142,7 +144,7 @@ def BuildSourceAndExecute(problem_name):
             shell=True, check=True)
     print("[DONE]")
 
-    print(f'{"Removing the binary":50}', end=" ")
+    print(f'{"Removing the binary":100}', end=" ")
     # Remove the binary
     cmd = "rm " + runnable
     os.system(cmd)
@@ -157,20 +159,33 @@ def Testing(problem_name):
     comparison_result = filecmp.cmp(actual_output_file, expected_output_file, shallow = False)
     msg = "The sample test-case for " + problem_name
     if(comparison_result):
-        print(f'{msg:50}', end=" ")
+        print(f'{msg:100}', end=" ")
         print('\x1b[7;30;42m[PASS]\x1b[0m')
+        
     else:
-        print(f'{msg:50}', end=" ")
+        print(f'{msg:100}', end=" ")
         print('\x1b[7;30;41m[FAIL]\x1b[0m')
-        print("--> Expected: ")
-        print("--> Actual  : ")
-                    
-    print(f'{"Clean the actual file data":50}', end=" ")
+
+        PrintDiffResults()
+
+    print(f'{"Clean the actual file data":100}', end=" ")
     # Clear the actual output data 
     open(actual_output_file, "w").close() 
-    print("[DONE]")
+    print("[DONE]")              
     print("=========================================================")
     return
+
+def PrintDiffResults():
+    global actual_output_file
+    global expected_output_file
+
+    expected = open(expected_output_file).readlines()
+    actual   = open(actual_output_file).readlines()
+    print('--> Expected: {}'.format(str(expected)))
+    print('--> Actual  : {}'.format(str(actual)))
+
+    return
+
 
 # MAIN
 if __name__ == "__main__":
